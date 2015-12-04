@@ -16,3 +16,8 @@ ENV PATH=$PATH:/opt/jazz/scmtools/eclipse
 
 ADD scm.ini /opt/jazz/scmtools/eclipse/scm.ini
 ADD jazz-scm/ /root/.jazz-scm/
+
+RUN \
+ mkdir /var/data
+ 
+VOLUME /var/data
