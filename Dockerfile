@@ -21,3 +21,7 @@ RUN \
  mkdir /var/data
  
 VOLUME /var/data
+
+RUN \
+ apt-get update && \
+ apt-get install -y python3
