@@ -23,3 +23,10 @@ And to restart the image do execute the following command:
 ````
 docker start -i rtc2git
 ````
+
+### Note if SELinux enabled systems
+If you running on a SELinux enabled system you may need to flag your working directory used as volume mount point to be accessible:
+
+````
+chcon -Rt svirt_sandbox_file_t /var/rtc2git
+````
