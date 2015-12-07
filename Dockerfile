@@ -25,3 +25,10 @@ VOLUME /var/data
 RUN \
  apt-get update && \
  apt-get install -y python3
+
+RUN \
+ git clone https://github.com/rtcTo/rtc2git.git /opt/rtc2git
+
+ENV PATH=$PATH:/opt/rtc2git
+
+WORKDIR /var/data
