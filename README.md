@@ -36,7 +36,7 @@ chcon -Rt svirt_sandbox_file_t /var/rtc2git
 If you need to copy additional files and remote debug over port *8000* you should initially run docker with the following command:
 
 ```
-docker run -v /var/rtc2git:/var/data -v /tmp:/tmp -p 8000:8000 -it --name rtc2git rtcto/rtc2git
+docker run -v /var/rtc2git:/var/data -p 8000:8000 -it --name rtc2git rtcto/rtc2git
 ```
 
 Also add the following lines to the */opt/jazz/scmtools/eclipse/scm.ini* within the running docker instance (Just install your favorite
