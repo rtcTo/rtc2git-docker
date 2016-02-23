@@ -4,14 +4,14 @@
 Builds a docker image containing the [RTC](https://jazz.net/products/rational-team-concert/) SCM repository into a Git repository migration environment.
 
 ## Build requirements
-In order to build correctly you need to download the **[Linux 64 SCM Tools 5.0.1](https://jazz.net/downloads/rational-team-concert/releases/5.0.1?p=allDownloads)** and store it in the base directory as *RTC-scmTools-Linux64-5.0.1.zip*. Also you need to get the latest version of the **[rtc2gitcli](https://github.com/rtcTo/rtc2gitcli)** plugin JAR file. This has to be placed into the *plugins/* directory.
+In order to build correctly you need to download the **[Linux 64 SCM Tools 5.0.1](https://jazz.net/downloads/rational-team-concert/releases/5.0.1?p=allDownloads)** and store it in the base directory as *RTC-scmTools-Linux64-5.0.1.zip*. Also you need to get the latest version of the **[rtc2gitcli](https://github.com/rtcTo/rtc2gitcli)** plugin JAR file. This has to be placed into the *plugins/* directory. 
 
 ## Building using a proxy server
 To build the image when having to use a proxy use the docker build argument 
 as follows (requires docker 1.9+):
 
 ```
-docker build --build-arg="http_proxy=http://someproxy.somedomain:1234" .
+docker build --build-arg="http_proxy=http://someproxy.somedomain:1234" --build-arg="VERSION=5.0.1" .
 ```
 
 ## Running the docker image
