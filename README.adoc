@@ -69,8 +69,9 @@ Start the migration:
 scm migrate-to-git -r <scm-url> -u <user> -P <password> -m /var/data/migration.properties SOURCE_WORKSPACE TARGET_WORKSPACE
 ----
 
-NOTE: If you running on a SELinux enabled system you may need to flag your working directory used as volume mount point 
-to be accessible:
+NOTE: If you running on a SELinux enabled system you may have to do some additional work
+
+If your working directory used as volume mount point to be accessible:
 
 [source,bash]
 ----
