@@ -71,7 +71,8 @@ scm migrate-to-git -r <scm-url> -u <user> -P <password> -m /var/data/migration.p
 
 NOTE: If you running on a SELinux enabled system you may have to do some additional work
 
-If your working directory used as volume mount point to be accessible:
+If your working directory used as volume mount point is not accessible within the docker image, you can mark it for
+SELinux with the following command under a Redhat system:
 
 [source,bash]
 ----
