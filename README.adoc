@@ -1,7 +1,7 @@
 = rtc2git docker image
 Patrick Reinhart <https://github.com/reinhapa[@reinhapa]>
 :project-full-path: rtcto/rtc2git-docker
-:docker-path: rtcto/rtc2git-docker
+:docker-path: rtcto/rtc2git
 :github-branch: master
 :rtc-version: 6.0.2
 
