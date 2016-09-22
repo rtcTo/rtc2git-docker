@@ -1,0 +1,100 @@
+= rtc2git docker image
+Patrick Reinhart <https://github.com/reinhapa[@reinhapa]>
+:project-full-path: rtcTo/rtc2git-docker
+:github-branch: master
+:rtc-version: 6.0.1
+
+image:https://img.shields.io/badge/license-MIT-blue.svg["MIT License", link="https://github.com/{project-full-path}/blob/{github-branch}/LICENSE"]
+image:https://img.shields.io/docker/pulls/{project-full-path}.svg["Docker Pulls", link="https://hub.docker.com/r/{project-full-path}/"]
+image:https://img.shields.io/docker/stars/{project-full-path}.svg["Docker Stars", link="https://hub.docker.com/r/{project-full-path}/"]
+
+== rtc2git-docker
+Builds a docker image containing the https://jazz.net/products/rational-team-concert[RTC] 
+SCM repository into a Git repository migration environment.
+
+=== Build requirements
+In order to build correctly you need to download the 
+https://jazz.net/downloads/rational-team-concert/releases/{rtc-version}?p=allDownloads[Linux 64 SCM Tools {rtc-version}] 
+and store it in the base directory as _RTC-scmTools-Linux64-{rtc-version}.zip_. Also you need to 
+get the latest version of the [rtc2gitcli](https://github.com/rtcTo/rtc2gitcli) plugin JAR file. This has to be 
+placed into the _plugins/_ directory. 
+
+=== Building
+To build the image when use the docker build argument as follows (requires docker 1.9+):
+
+[source,bash]
+----
+docker build --build-arg="VERSION={rtc-version}" -t rtcto/rtc2git:{rtc-version} .
+----
+
+In order to use an optional proxy to get the images, you can add an additional 
+`--build-arg="http_proxy=http://someproxy.somedomain:1234"` command.
+
+=== Running the docker image
+You can run the docker image with the following command if your local data volume should point to `/var/rtc2git` as follows:
+
+[source,bash]
+----
+docker run -v /var/rtc2git:/var/data -it --name rtc2git rtcto/rtc2git:{rtc-version}
+----
+
+And to restart the image do execute the following command:
+
+[source,bash]
+----
+docker start -i rtc2git
+----
+
+=== Migration process
+A simple migration can be done now, after doing simple preparation steps:
+
+- Create a source RTC workspace refered by _SOURCE_WORKSPACE_
+- Create a target RTC workspace refered by _TARGET_WORKSPACE_
+- Create a optional migration.properties file in the target volume root
+
+For more information see the plugin https://github.com/rtcTo/rtc2gitcli/blob/master/README.md[documentation]
+
+Load initial _TARGET_WORKSPACE_ content:
+
+[source,bash]
+----
+scm load -r <scm-url> -u <user> -P <password> TARGET_WORKSPACE
+----
+
+Start the migration:
+
+[source,bash]
+----
+scm migrate-to-git -r <scm-url> -u <user> -P <password> -m /var/data/migration.properties SOURCE_WORKSPACE TARGET_WORKSPACE
+----
+
+==== Note if SELinux enabled systems
+If you running on a SELinux enabled system you may need to flag your working directory used as volume mount point to be accessible:
+
+[source,bash]
+----
+chcon -Rt svirt_sandbox_file_t /var/rtc2git
+----
+
+==== Enable remote debug the SCM tools
+If you need to copy additional files and remote debug over port _8000_ you should initially run docker with the following command:
+
+[source,bash]
+----
+docker run -v /var/rtc2git:/var/data -p 8000:8000 -it --name rtc2git rtcto/rtc2git:{rtc-version}
+----
+
+Also add the following lines to the `/opt/jazz/scmtools/eclipse/scm.ini` within the running docker instance (Just install your favorite
+editor using _apt-get_):
+
+[source,bash]
+----
+-Xdebug
+-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000
+----
+
+== Contribute
+Contributions are always welcome.
+
+== License
+This project is licensed under the https://github.com/{project-full-path}/blob/{github-branch}/LICENSE[MIT license]
