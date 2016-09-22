@@ -3,7 +3,7 @@ FROM java:8u66
 MAINTAINER rtc.to
 LABEL description="Docker image for RTC to GIT migration"
 
-ARG VERSION=6.0.1
+ARG VERSION=6.0.2
 
 ADD RTC-scmTools-Linux64-$VERSION.zip /tmp/rtc-scm-tools.zip
 RUN unzip -d /opt /tmp/rtc-scm-tools.zip
