@@ -1,12 +1,13 @@
 = rtc2git docker image
 Patrick Reinhart <https://github.com/reinhapa[@reinhapa]>
-:project-full-path: rtcTo/rtc2git-docker
+:project-full-path: rtcto/rtc2git-docker
+:docker-path: rtcto/rtc2git-docker
 :github-branch: master
-:rtc-version: 6.0.1
+:rtc-version: 6.0.2
 
 image:https://img.shields.io/badge/license-MIT-blue.svg["MIT License", link="https://github.com/{project-full-path}/blob/{github-branch}/LICENSE"]
-image:https://img.shields.io/docker/pulls/{project-full-path}.svg["Docker Pulls", link="https://hub.docker.com/r/{project-full-path}/"]
-image:https://img.shields.io/docker/stars/{project-full-path}.svg["Docker Stars", link="https://hub.docker.com/r/{project-full-path}/"]
+image:https://img.shields.io/docker/pulls/{project-full-path}.svg["Docker Pulls", link="https://hub.docker.com/r/{docker-path}/"]
+image:https://img.shields.io/docker/stars/{project-full-path}.svg["Docker Stars", link="https://hub.docker.com/r/{docker-path}/"]
 
 == rtc2git-docker
 Builds a docker image containing the https://jazz.net/products/rational-team-concert[RTC] 
@@ -15,8 +16,8 @@ SCM repository into a Git repository migration environment.
 === Build requirements
 In order to build correctly you need to download the 
 https://jazz.net/downloads/rational-team-concert/releases/{rtc-version}?p=allDownloads[Linux 64 SCM Tools {rtc-version}] 
-and store it in the base directory as _RTC-scmTools-Linux64-{rtc-version}.zip_. Also you need to 
-get the latest version of the https://github.com/rtcTo/rtc2gitcli[rtc2gitcli] plugin JAR file. This has to be 
+and store it in the base directory as `RTC-scmTools-Linux64-{rtc-version}.zip` in oder for the docker build to be found correctly. 
+Also you need to get the latest version of the https://github.com/rtcTo/rtc2gitcli[rtc2gitcli] plugin JAR file. This has to be 
 placed into the `plugins/` directory. 
 
 === Building
