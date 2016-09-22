@@ -49,9 +49,9 @@ docker start -i rtc2git
 === Migration process
 A simple migration can be done now, after doing simple preparation steps:
 
-- Create a source RTC workspace refered by _SOURCE_WORKSPACE_
-- Create a target RTC workspace refered by _TARGET_WORKSPACE_
-- Create a optional migration.properties file in the target volume root
+* Create a source RTC workspace refered by _SOURCE_WORKSPACE_
+* Create a target RTC workspace refered by _TARGET_WORKSPACE_
+* Create a optional migration.properties file in the target volume root
 
 For more information see the plugin https://github.com/rtcTo/rtc2gitcli/blob/master/README.md[documentation]
 
@@ -90,7 +90,7 @@ docker run -v /var/rtc2git:/var/data -p 8000:8000 -it --name rtc2git rtcto/rtc2g
 Also add the following lines to the `/opt/jazz/scmtools/eclipse/scm.ini` within the running docker instance (Just install your favorite
 editor using `apt-get`):
 
-[source,bash]
+[source]
 ----
 -Xdebug
 -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000
