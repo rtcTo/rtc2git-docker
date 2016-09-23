@@ -1,3 +1,4 @@
 .DS_Store
-/.project
-/RTC-scmTools-Linux64-*.zip
+.project
+jazz
+RTC-scmTools-Linux64-*

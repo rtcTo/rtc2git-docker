@@ -1,0 +1,53 @@
+#!/bin/bash
+#
+# in order to build only a subset of base images you have to set 
+# the environment variable RTC_VERSIONS prior invoking this script.
+# Note that all versions has to be separated with a space in order 
+# to work correctly
+#
+# export RTC_VERSIONS="6.0.1 6.0.2"
+#
+
+if [ $# -eq 0 ] ; then
+  echo
+  echo "Usage: base_images COMMAND [COMMAND...]"
+  echo
+  echo "Commands:"
+  echo "    build     Build base images of defined versions"
+  echo "    push      Pushes the generated images"
+  echo
+  exit 1
+fi 
+
+if [ -z $RTC_VERSIONS ] ; then
+  RTC_VERSIONS=$(find . -name 'RTC-scmTools-Linux64-*.zip' | sed -r 's/.*\/RTC-scmTools-Linux64-([0-9.]+)\.zip$/\1/')
+fi
+
+build=false
+push=false
+
+for ARG in $* ; do
+  case $ARG in
+    build )
+      build=true 
+      ;;
+    push )
+      push=true 
+      ;;
+  esac 
+done
+
+for RTC_VERSION in $RTC_VERSIONS ; do
+  rtc_zip="RTC-scmTools-Linux64-$RTC_VERSION.zip"
+  if $build && [ -e $rtc_zip ] ; then
+    echo "Building base image for version $RTC_VERSION"
+    rm -rf rtc-base/jazz
+    unzip -q $rtc_zip -d rtc-base
+    sudo docker build -t rtcto/rtc:$RTC_VERSION rtc-base
+    rm -rf rtc-base/jazz
+  fi
+  if $push && [ ! -z $(sudo docker images -q rtcto/rtc:$RTC_VERSION) ] ; then
+    echo "Pushing version $RTC_VERSION"
+    sudo docker push rtcto/rtc:$RTC_VERSION
+  fi
+done
