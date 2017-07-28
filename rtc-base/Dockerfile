@@ -1,4 +1,4 @@
-FROM java:8u66
+FROM docker.io/java:8u111
 
 MAINTAINER rtc.to
 LABEL description="RTC client docker image"

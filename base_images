@@ -5,7 +5,7 @@
 # Note that all versions has to be separated with a space in order 
 # to work correctly
 #
-# export RTC_VERSIONS="6.0.1 6.0.2"
+# export RTC_VERSIONS="6.0.3 6.0.4"
 #
 
 if [ $# -eq 0 ] ; then
@@ -19,19 +19,20 @@ if [ $# -eq 0 ] ; then
   exit 1
 fi 
 
-if [ -z $RTC_VERSIONS ] ; then
+if [ -z "$RTC_VERSIONS" ] ; then
   RTC_VERSIONS=$(find . -name 'RTC-scmTools-Linux64-*.zip' | sed -r 's/.*\/RTC-scmTools-Linux64-([0-9.]+)\.zip$/\1/')
 fi
 
 build=false
 push=false
+force=false
 
 for ARG in $* ; do
   case $ARG in
-    build )
+    "build" )
       build=true 
       ;;
-    push )
+    "push" )
       push=true 
       ;;
   esac 
@@ -43,11 +44,11 @@ for RTC_VERSION in $RTC_VERSIONS ; do
     echo "Building base image for version $RTC_VERSION"
     rm -rf rtc-base/jazz
     unzip -q $rtc_zip -d rtc-base
-    sudo docker build -t rtcto/rtc:$RTC_VERSION rtc-base
+    sudo docker build -t docker.io/rtcto/rtc:$RTC_VERSION rtc-base
     rm -rf rtc-base/jazz
   fi
-  if $push && [ ! -z $(sudo docker images -q rtcto/rtc:$RTC_VERSION) ] ; then
+  if $push && [ ! -z $(sudo docker images -q docker.io/rtcto/rtc:$RTC_VERSION) ] ; then
     echo "Pushing version $RTC_VERSION"
-    sudo docker push rtcto/rtc:$RTC_VERSION
+    sudo docker push docker.io/rtcto/rtc:$RTC_VERSION
   fi
 done
