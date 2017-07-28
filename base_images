@@ -25,7 +25,6 @@ fi
 
 build=false
 push=false
-force=false
 
 for ARG in $* ; do
   case $ARG in

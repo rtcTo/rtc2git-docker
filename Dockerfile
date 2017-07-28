@@ -1,4 +1,4 @@
-FROM rtcto/rtc:6.0.2
+FROM docker.io/rtcto/rtc:6.0.4
 
 MAINTAINER rtc.to
 LABEL description="Docker image for RTC to GIT migration"

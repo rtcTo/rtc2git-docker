@@ -1,4 +1,5 @@
 .DS_Store
 .project
-jazz
+jazz/
+build/
 RTC-scmTools-Linux64-*
