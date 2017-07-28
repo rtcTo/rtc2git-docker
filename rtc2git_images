@@ -10,10 +10,6 @@ if [ $# -eq 0 ] ; then
   exit 1
 fi 
 
-if [ -z "$RTC_VERSIONS" ] ; then
-  RTC_VERSIONS=$(find . -name 'RTC-scmTools-Linux64-*.zip' | sed -r 's/.*\/RTC-scmTools-Linux64-([0-9.]+)\.zip$/\1/')
-fi
-
 build=false
 push=false
 
@@ -28,16 +24,20 @@ for ARG in $* ; do
   esac 
 done
 
-mkdir build
-for RTC_VERSION in $(sudo docker images --format "{{.Tag}}" docker.io/rtcto/rtc) ; do
-  if $build; then
-    echo "Building rtc2git image for version $RTC_VERSION"
-    sed -e 's/FROM docker\.io\/rtcto\/rtc:.*/FROM docker.io\/rtcto\/rtc:$RTC_VERSION/' Dockerfile >build/Dockerfile
-    sudo docker build -t docker.io/rtcto/rtc:$RTC_VERSION build 
-  fi
-  if $push && [ ! -z $(sudo docker images -q docker.io/rtcto/rtc2git:$RTC_VERSION) ] ; then
+if $build; then
+  mkdir build
+  cp -r plugins/ build/
+  for RTC_VERSION in $(sudo docker images --format "{{.Tag}}" docker.io/rtcto/rtc) ; do
+      echo "Building rtc2git image for version $RTC_VERSION"
+      sed -e "s/FROM docker\.io\/rtcto\/rtc:.*/FROM docker.io\/rtcto\/rtc:$RTC_VERSION/" Dockerfile >build/Dockerfile
+      sudo docker build -t docker.io/rtcto/rtc2git:$RTC_VERSION build 
+  done
+  rm -rf build
+fi
+
+if $push ; then
+  for RTC_VERSION in $(sudo docker images --format "{{.Tag}}" docker.io/rtcto/rtc2git) ; do
     echo "Pushing version $RTC_VERSION"
     sudo docker push docker.io/rtcto/rtc2git:$RTC_VERSION
-  fi
-done
-rm -rf build
+  done
+fi
